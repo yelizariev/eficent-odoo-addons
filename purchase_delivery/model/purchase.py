@@ -33,7 +33,7 @@ class purchase_order(orm.Model):
                                            "picking."),
     }
 
-    def onchange_partner_id(self, cr, uid, ids, part):
+    def onchange_partner_id(self, cr, uid, ids, part, context=None):
         result = super(purchase_order, self).onchange_partner_id(
             cr, uid, ids, part)
         if part:
