@@ -1,5 +1,5 @@
-Allows you to add delivery methods in purchase orders and picking.
-==============================================================
+Allows you to add delivery methods in purchase orders and picking
+=================================================================
 
 This module makes it possible to add delivery method to purchase orders and
 can compute a shipping line in the purchase order or in the invoice when
