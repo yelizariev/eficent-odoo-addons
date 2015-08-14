@@ -107,5 +107,6 @@ class purchase_order(orm.Model):
             if not order.picking_type_id.warehouse_id.partner_id:
                 raise orm.except_orm(_('Error!'),
                                      _('The warehouse must have an address.'))
-            res['partner_id'] = order.picking_type_id.warehouse_id.partner_id.id,
+            for r in res:
+                r['partner_id'] = order.picking_type_id.warehouse_id.partner_id.id
         return res
