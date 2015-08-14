@@ -58,10 +58,10 @@ class purchase_order(orm.Model):
             dest_address_id = order.dest_address_id or False
             if (
                 not dest_address_id
-                and order.warehouse_id
-                and order.warehouse_id.partner_id
+                and order.picking_type_id.warehouse_id
+                and order.picking_type_id.warehouse_id.partner_id
             ):
-                dest_address_id = order.warehouse_id.partner_id
+                dest_address_id = order.picking_type_id.warehouse_id.partner_id
             if not dest_address_id:
                 raise orm.except_orm(_('No destination address available!'),
                                      _('An address must be added to the'
@@ -100,12 +100,12 @@ class purchase_order(orm.Model):
         return True
 
     def _prepare_order_line_move(self, cr, uid, order, order_line, picking_id,
-                                 context=None):
+                                 new_group, context=None):
         res = super(purchase_order, self)._prepare_order_line_move(
-            cr, uid, order, order_line, picking_id, context=context)
-        if order.warehouse_id and not order.dest_address_id:
-            if not order.warehouse_id.partner_id:
+            cr, uid, order, order_line, picking_id, new_group, context=context)
+        if order.picking_type_id.warehouse_id and not order.dest_address_id:
+            if not order.picking_type_id.warehouse_id.partner_id:
                 raise orm.except_orm(_('Error!'),
                                      _('The warehouse must have an address.'))
-            res['partner_id'] = order.warehouse_id.partner_id.id,
+            res['partner_id'] = order.picking_type_id.warehouse_id.partner_id.id,
         return res
